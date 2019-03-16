@@ -21,4 +21,8 @@ object Test extends App {
   println(variance(xs))
   println(standardDeviation(xs))
   println(mode(xs))
+
+  val zs = Array.range(1, 101).map(_.toDouble)
+
+  println(median(zs, canReshuffle = false))
 }

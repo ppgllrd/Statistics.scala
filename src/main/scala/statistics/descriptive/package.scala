@@ -112,4 +112,25 @@ package object descriptive {
     assert(data.nonEmpty, "midRange: data must be non-empty")
     internals.midRange_(data)
   }
+
+  def percentile(data: Array[Double], percentRank: Double, canReshuffle: Boolean = true): Double = {
+    assert(data.nonEmpty, "percentile: data must be non-empty")
+    assert(percentRank <= 0 && percentRank <= 100, "percentile: percentRank must be in [0,100]")
+    if(canReshuffle)
+      internals.percentile.partition.linearInterpolation(data, percentRank)
+    else {
+      val copy = data.clone()
+      internals.percentile.partition.linearInterpolation(copy, percentRank)
+    }
+  }
+
+  def median(data: Array[Double], canReshuffle: Boolean = true): Double = {
+    assert(data.nonEmpty, "median: data must be non-empty")
+    if(canReshuffle)
+      internals.percentile.partition.linearInterpolation(data, 50)
+    else {
+      val copy = data.clone()
+      internals.percentile.partition.linearInterpolation(copy, 50)
+    }
+  }
 }
