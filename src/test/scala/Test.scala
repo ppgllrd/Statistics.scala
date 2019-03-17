@@ -26,3 +26,14 @@ object Test extends App {
 
   println(median(zs, canReshuffle = false))
 }
+
+
+object TestMax extends App {
+  val n = 10000000
+  val xs = Array.range(0,n).map(_.toDouble)
+
+  val t0 = System.currentTimeMillis()
+  val m = statistics.descriptive.max(xs)
+  val t1 = System.currentTimeMillis()
+  println(t1 - t0)
+}
