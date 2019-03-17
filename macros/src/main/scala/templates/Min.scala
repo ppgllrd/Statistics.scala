@@ -21,7 +21,6 @@ object Min {
         q""" (x:$actualType, y:$actualType) => x < y """
       case _ =>
         q""" ord.lt """
-
     }
 
     q"""

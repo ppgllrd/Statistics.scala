@@ -68,9 +68,7 @@ private[statistics] object percentile {
         dataIntPart + fractPart * (dataIntPartNext - dataIntPart)
       }
     }
-
   }
-
 
   object sorted {
     // All these assume data is sorted, 0 < percentRank <= 100

@@ -21,7 +21,6 @@ object Max {
         q""" (x:$actualType, y:$actualType) => x > y """
       case _ =>
         q""" ord.gt """
-
     }
 
     q"""
