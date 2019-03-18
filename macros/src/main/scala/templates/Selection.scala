@@ -11,15 +11,22 @@ import scala.reflect.macros.blackbox
 
 object Selection {
   // Adapted from Numerical R ecipes book
-  def selection[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]], k: c.Expr[Int])(ord: c.Expr[Option[Ordering[A]]]): c.Tree = {
+  def selection[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]], k: c.Expr[Int])(ord: c.Expr[Ordering[A]]): c.Tree = {
     import c.universe._
     val actualType = c.weakTypeOf[A]
 
     @inline val gt = ord.tree match {
-      case q"scala.None" =>
+      case q"null" =>
         q""" (x:$actualType, y:$actualType) => x > y """
       case _ =>
-        q""" ord.gt """
+        q""" $ord.gt """
+    }
+
+    @inline val pr = ord.tree match {
+      case q"null" =>
+        q""" true """
+      case _ =>
+        q""" $ord """
     }
 
     q"""
@@ -28,6 +35,8 @@ object Selection {
       $data(i) = $data(j)
       $data(j) = temp
     }
+
+    println("xx "+$pr)
 
     var left = 0
     var right = $data.length - 1

@@ -82,6 +82,11 @@ package object descriptive {
     internals.mean_(data)
   }
 
+  def mean[A](data: Array[Double])(implicit num: Numeric[A]): Double = {
+    assert(data.nonEmpty, "mean: data must be non-empty")
+    internals.mean_(data)
+  }
+
 
   def variance(data: Array[Int]): Double = {
     assert(data.nonEmpty, "variance: data must be non-empty")
@@ -89,6 +94,11 @@ package object descriptive {
   }
 
   def variance(data: Array[Double]): Double = {
+    assert(data.nonEmpty, "variance: data must be non-empty")
+    internals.variance_(data)
+  }
+
+  def variance[A](data: Array[A])(implicit num: Numeric[A]): Double = {
     assert(data.nonEmpty, "variance: data must be non-empty")
     internals.variance_(data)
   }
@@ -104,6 +114,11 @@ package object descriptive {
     internals.standardDeviation_(data)
   }
 
+  def standardDeviation[A](data: Array[A])(implicit num: Numeric[A]): Double = {
+    assert(data.nonEmpty, "standardDeviation: data must be non-empty")
+    internals.standardDeviation_(data)
+  }
+
 
   def variancePopulation(data: Array[Int]): Double = {
     assert(data.nonEmpty, "variancePopulation: data must be non-empty")
@@ -115,6 +130,11 @@ package object descriptive {
     internals.variancePopulation_(data)
   }
 
+  def variancePopulation[A](data: Array[A])(implicit num: Numeric[A]): Double = {
+    assert(data.nonEmpty, "variancePopulation: data must be non-empty")
+    internals.variancePopulation_(data)
+  }
+
 
   def standardDeviationPopulation(data: Array[Int]): Double = {
     assert(data.nonEmpty, "standardDeviationPopulation: data must be non-empty")
@@ -122,6 +142,11 @@ package object descriptive {
   }
 
   def standardDeviationPopulation(data: Array[Double]): Double = {
+    assert(data.nonEmpty, "standardDeviationPopulation: data must be non-empty")
+    internals.standardDeviationPopulation_(data)
+  }
+
+  def standardDeviationPopulation[A](data: Array[A])(implicit num: Numeric[A]): Double = {
     assert(data.nonEmpty, "standardDeviationPopulation: data must be non-empty")
     internals.standardDeviationPopulation_(data)
   }
@@ -143,26 +168,46 @@ package object descriptive {
     internals.midRange_(data)
   }
 
-
-  def percentile(data: Array[Double], percentRank: Double, canReshuffle: Boolean = true): Double = {
-    assert(data.nonEmpty, "percentile: data must be non-empty")
-    assert(percentRank <= 0 && percentRank <= 100, "percentile: percentRank must be in [0,100]")
-    if(canReshuffle)
-      internals.percentile.partition.linearInterpolation(data, percentRank)
-    else {
-      val copy = data.clone()
-      internals.percentile.partition.linearInterpolation(copy, percentRank)
-    }
+  def midRange[A](data: Array[A])(implicit num: Numeric[A]): Double = {
+    assert(data.nonEmpty, "midRange: data must be non-empty")
+    internals.midRange_(data)
   }
 
 
-  def median(data: Array[Double], canReshuffle: Boolean = true): Double = {
-    assert(data.nonEmpty, "median: data must be non-empty")
-    if(canReshuffle)
-      internals.percentile.partition.linearInterpolation(data, 50)
-    else {
-      val copy = data.clone()
-      internals.percentile.partition.linearInterpolation(copy, 50)
-    }
-  }
+  def percentile(data: Array[Int], percentRank: Double): Double =
+    percentile(data, percentRank, false)
+
+  def percentile(data: Array[Double], percentRank: Double): Double =
+    percentile(data, percentRank, false)
+
+  def percentile[A](data: Array[Int], percentRank: Double)(implicit ord: Ordering[A], num: Numeric[A]): Double =
+    percentile(data, percentRank, false)
+
+  def percentile(data: Array[Int], percentRank: Double, canReshuffle: Boolean): Double =
+    internals.percentile.percentileMacro(data, percentRank, canReshuffle)(null, scala.math.Numeric.IntIsIntegral)
+
+  def percentile(data: Array[Double], percentRank: Double, canReshuffle: Boolean): Double =
+    internals.percentile.percentileMacro(data, percentRank, canReshuffle)(null, scala.math.Numeric.DoubleIsFractional)
+
+  def percentile[A](data: Array[A], percentRank: Double, canReshuffle: Boolean = true)(implicit ord: Ordering[A], num: Numeric[A]): Double =
+    internals.percentile.percentileMacro(data, percentRank, canReshuffle)(ord, num)
+
+
+  def median(data: Array[Int]): Double =
+    median(data, false)
+
+  def median(data: Array[Double]): Double =
+    median(data, false)
+
+  def median[A](data: Array[Int])(implicit ord: Ordering[A], num: Numeric[A]): Double =
+    median(data, false)
+
+  def median(data: Array[Int], canReshuffle: Boolean): Double =
+    internals.percentile.medianMacro(data, canReshuffle)(null, scala.math.Numeric.IntIsIntegral)
+
+  def median(data: Array[Double], canReshuffle: Boolean): Double =
+    internals.percentile.medianMacro(data, canReshuffle)(null, scala.math.Numeric.DoubleIsFractional)
+
+  def median[A](data: Array[A], canReshuffle: Boolean = true)(implicit ord: Ordering[A], num: Numeric[A]): Double =
+    internals.percentile.medianMacro(data, canReshuffle)(ord, num)
 }

@@ -12,15 +12,15 @@ package statistics.descriptive.internals
 import scala.language.experimental.macros
 
 private[statistics] object selection {
-  def selectionMacro[A](data: Array[A], k: Int)(ord: Option[Ordering[A]]): A =
+  def selectionMacro[A](data: Array[A], k: Int)(ord: Ordering[A]): A =
     macro templates.Selection.selection[A]
 
   def selection_(data: Array[Int], k: Int): Int =
-    selectionMacro(data, k)(None)
+    selectionMacro(data, k)(null)
 
   def selection_(data: Array[Double], k: Int): Double =
-    selectionMacro(data, k)(None)
+    selectionMacro(data, k)(null)
 
   def selection_[A](data: Array[A], k: Int)(implicit ord: Ordering[A]): A =
-    selectionMacro(data, k)(Some(ord))
+    selectionMacro(data, k)(ord)
 }

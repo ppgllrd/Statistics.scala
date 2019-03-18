@@ -10,13 +10,13 @@ package templates
 import scala.reflect.macros.blackbox
 
 object Sums {
-  def sum[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]])(num: c.Expr[Option[Numeric[A]]]): c.Tree = {
+  def sum[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]])(num: c.Expr[Numeric[A]]): c.Tree = {
 
     import c.universe._
     val actualType = c.weakTypeOf[A]
 
     @inline val (plus, zero) = num.tree match {
-      case q"scala.None" =>
+      case q"null" =>
         ( q""" (x:$actualType, y:$actualType) => x + y """
         , q""" 0 """
         )
@@ -34,12 +34,12 @@ object Sums {
     """
   }
 
-  def sumSqr[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]])(num: c.Expr[Option[Numeric[A]]]): c.Tree = {
+  def sumSqr[A: c.WeakTypeTag](c: blackbox.Context)(data: c.Expr[Array[A]])(num: c.Expr[Numeric[A]]): c.Tree = {
     import c.universe._
     val actualType = c.weakTypeOf[A]
 
     @inline val (plusSqr, zero) = num.tree match {
-      case q"scala.None" =>
+      case q"null" =>
         ( q""" (x:$actualType, y:$actualType) => x + y*y """
         , q""" 0 """
         )

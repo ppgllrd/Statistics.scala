@@ -6,7 +6,6 @@
   * ****************************************************************************/
 
 object Test extends App {
-
   import statistics.descriptive._
 
   val xs = Array(1, 2, 3, 4, 5, 2)
@@ -23,14 +22,16 @@ object Test extends App {
   println(mode(xs))
 
   val zs = Array.range(1, 101).map(_.toDouble)
+  println(max(zs))
 
-  println(median(zs, canReshuffle = false))
+  println(percentile(zs, 25))
+  println(median(zs))
 }
 
 
 object TestMax extends App {
   val n = 10000000
-  val xs = Array.range(0,n).map(_.toDouble)
+  val xs = Array.range(0,n).map(_.toLong)
 
   val t0 = System.currentTimeMillis()
   val m = statistics.descriptive.max(xs)
