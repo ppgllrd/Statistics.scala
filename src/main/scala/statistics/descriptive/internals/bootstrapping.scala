@@ -26,8 +26,6 @@ private[statistics] object bootstrapping {
       sampleMeanDiffs(i) = statistics.descriptive.internals.mean_(sample) - mean
     }
 
-    scala.util.Sorting.quickSort(sampleMeanDiffs)
-
     val lowRank = 100 * (1 - alpha) / 2
     val highRank = 100 * (1 + alpha) / 2
 
