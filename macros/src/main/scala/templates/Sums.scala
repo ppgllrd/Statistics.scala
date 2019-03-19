@@ -28,8 +28,8 @@ object Sums {
 
     q"""
       var s : $actualType = $zero
-      for(x <- $data)
-        s = $plus(s, x)
+      for(i <- 0 until $data.length)
+        s = $plus(s, $data(i))
       s
     """
   }
@@ -50,8 +50,8 @@ object Sums {
     }
     q"""
       var s : $actualType = 0
-      for(x <- $data)
-        s = $plusSqr(s, x)
+      for(i <- 0 until $data.length)
+        s = $plusSqr(s, $data(i))
       s
     """
   }

@@ -51,6 +51,19 @@ package object internals {
     productMacro(data)(num)
 
 
+  private[statistics] def minMacro[A](data: Array[A])(ord: Ordering[A]): A =
+  macro templates.Min.min[A]
+
+  private[statistics] def min_(data: Array[Int]): Int =
+    minMacro(data)(null)
+
+  private[statistics] def min_(data: Array[Double]): Double =
+    minMacro(data)(null)
+
+  private[statistics] def min_[A](data: Array[A])(implicit ord: Ordering[A]): A =
+    minMacro(data)(ord)
+
+
   private[statistics] def maxMacro[A](data: Array[A])(ord: Ordering[A]): A =
     macro templates.Max.max[A]
 
@@ -64,17 +77,17 @@ package object internals {
     maxMacro(data)(ord)
 
 
-  private[statistics] def minMacro[A](data: Array[A])(ord: Ordering[A]): A =
-    macro templates.Min.min[A]
+  private[statistics] def minMaxMacro[A](data: Array[A])(ord: Ordering[A]): (A, A) =
+    macro templates.MinMax.minMax[A]
 
-  private[statistics] def min_(data: Array[Int]): Int =
-    minMacro(data)(null)
+  private[statistics] def minMax_(data: Array[Int]): (Int, Int) =
+    minMaxMacro(data)(null)
 
-  private[statistics] def min_(data: Array[Double]): Double =
-    minMacro(data)(null)
+  private[statistics] def minMax_(data: Array[Double]): (Double, Double) =
+    minMaxMacro(data)(null)
 
-  private[statistics] def min_[A](data: Array[A])(implicit ord: Ordering[A]): A =
-    minMacro(data)(ord)
+  private[statistics] def minMax_[A](data: Array[A])(implicit ord: Ordering[A]): (A, A) =
+    minMaxMacro(data)(ord)
 
 
   private[statistics] def mean_(data: Array[Int]): Double =

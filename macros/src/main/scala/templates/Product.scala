@@ -28,8 +28,8 @@ object Product {
 
     q"""
       var s : $actualType = $one
-      for(x <- $data)
-        s = $times(s, x)
+      for(i <- 0 until $data.length)
+        s = $times(s, $data(i))
       s
     """
   }

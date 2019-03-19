@@ -40,22 +40,6 @@ package object descriptive {
   }
 
 
-  def max(data: Array[Int]): Int = {
-    assert(data.nonEmpty, "max: data must be non-empty")
-    internals.max_(data)
-  }
-
-  def max(data: Array[Double]): Double = {
-    assert(data.nonEmpty, "max: data must be non-empty")
-    internals.max_(data)
-  }
-
-  def max[A](data: Array[A])(implicit ord: Ordering[A]): A = {
-    assert(data.nonEmpty, "max: data must be non-empty")
-    internals.max_(data)(ord)
-  }
-
-
   def min(data: Array[Int]): Int = {
     assert(data.nonEmpty, "min: data must be non-empty")
     internals.min_(data)
@@ -71,6 +55,40 @@ package object descriptive {
     internals.min_(data)(ord)
   }
 
+
+  def max(data: Array[Int]): Int = {
+    assert(data.nonEmpty, "max: data must be non-empty")
+    internals.max_(data)
+  }
+
+  def max(data: Array[Double]): Double = {
+    assert(data.nonEmpty, "max: data must be non-empty")
+    internals.max_(data)
+  }
+
+  def max[A](data: Array[A])(implicit ord: Ordering[A]): A = {
+    assert(data.nonEmpty, "max: data must be non-empty")
+    internals.max_(data)(ord)
+  }
+
+/*
+  minMax algorithm turns out to be slower than min and max
+
+  def minMax(data: Array[Int]): (Int, Int) = {
+    assert(data.nonEmpty, "minMax: data must be non-empty")
+    internals.minMax_(data)
+  }
+
+  def minMax(data: Array[Double]): (Double, Double) = {
+    assert(data.nonEmpty, "minMax: data must be non-empty")
+    internals.minMax_(data)
+  }
+
+  def minMax[A](data: Array[A])(implicit ord: Ordering[A]): (A, A) = {
+    assert(data.nonEmpty, "minMax: data must be non-empty")
+    internals.minMax_(data)(ord)
+  }
+*/
 
   def mean(data: Array[Int]): Double = {
     assert(data.nonEmpty, "mean: data must be non-empty")

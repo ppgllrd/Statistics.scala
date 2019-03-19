@@ -23,9 +23,12 @@ object Min {
 
     q"""
       var m : $actualType = $data(0)
-      for(i <- 1 until $data.length)
+      var i = 1
+      while(i < $data.length) {
         if($lt($data(i), m))
           m = $data(i)
+        i += 1
+      }
       m
     """
   }
