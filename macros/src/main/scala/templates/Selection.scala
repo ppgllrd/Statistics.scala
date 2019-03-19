@@ -22,21 +22,12 @@ object Selection {
         q""" $ord.gt """
     }
 
-    @inline val pr = ord.tree match {
-      case q"null" =>
-        q""" true """
-      case _ =>
-        q""" $ord """
-    }
-
     q"""
     @inline def swap(i: Int, j: Int): Unit = {
       val temp = $data(i)
       $data(i) = $data(j)
       $data(j) = temp
     }
-
-    println("xx "+$pr)
 
     var left = 0
     var right = $data.length - 1

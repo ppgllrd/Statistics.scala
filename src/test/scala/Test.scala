@@ -71,3 +71,14 @@ object TestMinMax extends App {
   println(tMinMax, t)
 }
 */
+
+object TestCI extends App {
+  val rnd = new scala.util.Random()
+  val size = 100000
+  val data = new Array[Double](size)
+
+  for(i <- 0 until size)
+    data(i) = rnd.nextGaussian()
+
+  println(statistics.descriptive.meanConfidenceInterval(data, alpha = 0.9, numSamples = 5000))
+}

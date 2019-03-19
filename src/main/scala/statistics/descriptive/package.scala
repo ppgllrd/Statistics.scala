@@ -71,7 +71,7 @@ package object descriptive {
     internals.max_(data)(ord)
   }
 
-/*
+  /*
   minMax algorithm turns out to be slower than min and max
 
   def minMax(data: Array[Int]): (Int, Int) = {
@@ -228,4 +228,11 @@ package object descriptive {
 
   def median[A](data: Array[A], canReshuffle: Boolean = true)(implicit ord: Ordering[A], num: Numeric[A]): Double =
     internals.percentile.medianMacro(data, canReshuffle)(ord, num)
+
+
+  def meanConfidenceInterval(data: Array[Double], alpha: Double = 0.9, numSamples: Int = 1000): (Double, Double) = {
+    assert(data.nonEmpty, "meanConfidenceInterval: data must be non-empty")
+    assert(0 < alpha && alpha < 1, "meanConfidenceInterval: alpha must be in (0,1)")
+    internals.bootstrapping.meanConfidenceInterval(data, alpha, numSamples)
+  }
 }
